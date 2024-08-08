@@ -1,5 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
 body, html {
     margin: 0;
     padding: 0;
-    background-color: rgb(52, 52, 52);
+    background-color: #E69A8DFF;
+}
+
+.square {
+    display: grid;
+    width: 150px;
+    height: 150px;
+    background-color: #5F4B8BFF;
+    color: #E69A8DFF;
+    font-family: Montserrat;
+    font-weight: 500;
+    font-size: 100px;
+    place-content: center;
+}
+
+.grid {
+    display: grid;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    bottom: 50%;
+    right: 50%;
+    grid-template: repeat(3, 150px) / repeat(3, 150px);
+    gap: 15px;
+    place-content: center;
+}
+
+p {
+    position: absolute;
+    margin: auto;
+    bottom: 12%;
+    left: 0;
+    right: 0;
+    width: max-content;
+    color: #5F4B8BFF;
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 100px;
 }
