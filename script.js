@@ -41,17 +41,24 @@ const displayController = () => {
 };
 
 let selectedSquare = null;
+let isReset = false;
 const selectSquare = (() => {
     const squares = document.querySelectorAll(".square");
-    const p = document.querySelector("p");
+    const p = document.querySelector(".info");
+    const score = document.querySelector(".score");
+    let scoreX = 0;
+    let scoreY = 0;
     for (let i = 0; i<squares.length; i++) {
         squares[i].addEventListener("click", () => {
             selectedSquare = i;
             makeGameContoller.playGame();
             if (makeGameboard.checkGameOver() == 1) {
                 p.textContent = "Player X, You Won!";
+                scoreX++;
+                score.textContent = `X: ${scoreX} O: ${scoreY}`;
             }  else if (makeGameboard.checkGameOver() == 2) {
                 p.textContent = "Player O, You Won!";
+                scoreY++;
             } else if (makeGameboard.checkGameOver() == 3) {
                 p.textContent = "You Tied!";
             }
@@ -61,22 +68,25 @@ const selectSquare = (() => {
 
 const makeGameContoller = (() => {
     function makePlayer(letter) {
-        let score = 0;
-        const addScore = () => score++;
-        return {letter, score, addScore};
+        return {letter};
     }
 
     const playerX = makePlayer("X");
     const playerO = makePlayer("O");
     let turnCounter = 1;
 
+    //RESET DOESNT WORK GODDAMIT
+    const reset = document.querySelector(".reset");
+    reset.addEventListener("click", () => {
+        makeGameboard.gameboard = [null, null, null, null, null, null, null, null, null];
+        displayController();
+        turnCounter = 1;
+    });
+
     //1 is playerX won, 2 is playerO won, 3 is a tie, 4 is game is still going
     const playGame = () => {
-        if (makeGameboard.checkGameOver() == 1) {
-            playerX.addScore();
-        }  else if (makeGameboard.checkGameOver() == 2) {
-            playerO.addScore();
-        }
+        const p = document.querySelector(".info");
+        p.textContent = "";
         if (makeGameboard.checkGameOver() == 4) {
             let currentPlayer;
             if (turnCounter % 2 == 0) {
@@ -88,8 +98,8 @@ const makeGameContoller = (() => {
                 makeGameboard.changeLetter(currentPlayer.letter, selectedSquare);
                 turnCounter++;
                 displayController();
-            } else {
-                alert("Pick an empty space!");
+            } else { 
+                p.textContent = "Pick an Empty Space!"
             }
         }
     }
