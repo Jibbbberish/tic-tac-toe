@@ -1,6 +1,5 @@
+let gameboard = [null, null, null, null, null, null, null, null, null];
 const makeGameboard = (function () {
-    let gameboard = [null, null, null, null, null, null, null, null, null];
-    
     const changeLetter = (letter, index) => {
         if  (gameboard.at(index) === null) {
             gameboard.splice(index, 1, letter)
@@ -30,18 +29,17 @@ const makeGameboard = (function () {
             return 4;
         }
     }
-    return {changeLetter, checkGameOver, gameboard};
+    return {changeLetter, checkGameOver};
 })();
 
 const displayController = () => {
     const squares = document.querySelectorAll(".square");
     for (let i = 0; i<squares.length; i++) {
-        squares[i].textContent = makeGameboard.gameboard[i];
+        squares[i].textContent = gameboard[i];
     }
 };
 
 let selectedSquare = null;
-let isReset = false;
 const selectSquare = (() => {
     const squares = document.querySelectorAll(".square");
     const p = document.querySelector(".info");
@@ -59,6 +57,7 @@ const selectSquare = (() => {
             }  else if (makeGameboard.checkGameOver() == 2) {
                 p.textContent = "Player O, You Won!";
                 scoreY++;
+                score.textContent = `X: ${scoreX} O: ${scoreY}`;
             } else if (makeGameboard.checkGameOver() == 3) {
                 p.textContent = "You Tied!";
             }
@@ -78,7 +77,7 @@ const makeGameContoller = (() => {
     //RESET DOESNT WORK GODDAMIT
     const reset = document.querySelector(".reset");
     reset.addEventListener("click", () => {
-        makeGameboard.gameboard = [null, null, null, null, null, null, null, null, null];
+        gameboard = [null, null, null, null, null, null, null, null, null];
         displayController();
         turnCounter = 1;
     });
@@ -94,7 +93,7 @@ const makeGameContoller = (() => {
             } else { 
                 currentPlayer = playerX;
             }
-            if (makeGameboard.gameboard[selectedSquare] == null) {
+            if (gameboard[selectedSquare] == null) {
                 makeGameboard.changeLetter(currentPlayer.letter, selectedSquare);
                 turnCounter++;
                 displayController();
